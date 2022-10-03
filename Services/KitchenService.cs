@@ -62,7 +62,7 @@ namespace Kitchen.Services
                         cooking_time = cookingtime,
                         cooking_details = list
                     };
-                    SendReturnOrder(returnOrder);
+                    Task.Run(() => SendReturnOrder(returnOrder));
                 }
                 mutex.ReleaseMutex();
             }
