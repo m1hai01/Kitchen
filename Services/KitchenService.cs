@@ -14,9 +14,9 @@ namespace Kitchen.Services
         {
             _logger = logger;
             httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri("http://host.docker.internal:8080/");
+            httpClient.BaseAddress = new Uri("http://host.docker.internal:8080/");//go back to dining hall
            // _logger.LogInformation($"Constructor start ");
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 5; i++)
             {
                 //_logger.LogInformation($"Constructor-for  ");
                 Task.Run(() => PrepareOrder());
@@ -36,7 +36,7 @@ namespace Kitchen.Services
             while (true)
             {
                // _logger.LogInformation($"Prepare order while ");
-                mutex.WaitOne();
+                mutex.WaitOne();//lock the logic bellow for other threads enter 
                 if (queue.Count != 0)
                 {
                     //_logger.LogInformation($"prepare order if ");
@@ -64,7 +64,7 @@ namespace Kitchen.Services
                     };
                     Task.Run(() => SendReturnOrder(returnOrder));
                 }
-                mutex.ReleaseMutex();
+                mutex.ReleaseMutex();//allow to other threads to enter in logic above 
             }
         }
 
